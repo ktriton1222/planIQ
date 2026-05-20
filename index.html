@@ -10,65 +10,94 @@
 <body>
 
   <div class="app">
-    <div class="header">
-      <div class="logo">Plan<span>IQ</span></div>
-      <div class="dept-badge">
+
+    <nav class="sidebar" id="sidebar">
+      <div class="nav-section-label">Tools</div>
+      <div class="nav-item active" data-tool="headcount">
         <i class="ti ti-users" aria-hidden="true"></i>
-        Headcount Planning — FY 2026
+        <span>Headcount</span>
       </div>
-    </div>
+    </nav>
 
-    <div class="summary-grid" id="summary">
-      <div class="metric">
-        <div class="metric-label">Total headcount</div>
-        <div class="metric-value" id="s-total">0</div>
-        <div class="metric-sub">roles</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Monthly cost</div>
-        <div class="metric-value" id="s-monthly">$0</div>
-        <div class="metric-sub">all roles</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Annual cost</div>
-        <div class="metric-value" id="s-annual">$0</div>
-        <div class="metric-sub">remaining FY</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Open roles</div>
-        <div class="metric-value" id="s-open">0</div>
-        <div class="metric-sub">unfilled</div>
-      </div>
-    </div>
+    <div class="right-panel">
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th class="col-role">Role title</th>
-            <th class="col-rate">Rate</th>
-            <th class="col-type">Type</th>
-            <th class="col-start">Start month</th>
-            <th class="col-monthly">Monthly cost</th>
-            <th class="col-annual">Annual cost</th>
-            <th class="col-status">Status</th>
-            <th class="col-dept">Department</th>
-            <th class="col-del"></th>
-          </tr>
-        </thead>
-        <tbody id="hc-body"></tbody>
-      </table>
-      <div class="add-row" id="add-row-btn" role="button" tabindex="0" aria-label="Add new role">
-        <i class="ti ti-plus" aria-hidden="true"></i> Add role
-      </div>
-    </div>
+      <header class="top-bar">
+        <button class="burger-btn" id="burger-btn" aria-label="Toggle sidebar">
+          <i class="ti ti-menu-2" aria-hidden="true"></i>
+        </button>
+        <div class="logo">Plan<span>IQ</span></div>
+        <div class="top-bar-end"></div>
+      </header>
 
-    <div class="footer-bar">
-      <button class="btn btn-primary" onclick="exportCSV()">
-        <i class="ti ti-download" aria-hidden="true"></i> Export CSV
-      </button>
-    </div>
-  </div>
+      <div class="page-content">
+
+        <div class="page-header">
+          <div class="dept-badge">
+            <i class="ti ti-users" aria-hidden="true"></i>
+            Headcount Planning — FY 2026
+          </div>
+        </div>
+
+        <div class="tool-view">
+
+          <div class="summary-grid" id="summary">
+            <div class="metric">
+              <div class="metric-label">Total headcount</div>
+              <div class="metric-value" id="s-total">0</div>
+              <div class="metric-sub">roles</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Monthly cost</div>
+              <div class="metric-value" id="s-monthly">$0</div>
+              <div class="metric-sub">all roles</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Annual cost</div>
+              <div class="metric-value" id="s-annual">$0</div>
+              <div class="metric-sub">remaining FY</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Open roles</div>
+              <div class="metric-value" id="s-open">0</div>
+              <div class="metric-sub">unfilled</div>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th class="col-role">Role title</th>
+                  <th class="col-rate">Rate</th>
+                  <th class="col-type">Type</th>
+                  <th class="col-start">Start month</th>
+                  <th class="col-monthly">Monthly cost</th>
+                  <th class="col-annual">Annual cost</th>
+                  <th class="col-status">Status</th>
+                  <th class="col-dept">Department</th>
+                  <th class="col-del"></th>
+                </tr>
+              </thead>
+              <tbody id="hc-body"></tbody>
+            </table>
+            <div class="add-row" id="add-row-btn" role="button" tabindex="0" aria-label="Add new role">
+              <i class="ti ti-plus" aria-hidden="true"></i> Add role
+            </div>
+          </div>
+
+          <div class="footer-bar">
+            <button class="btn btn-primary" onclick="exportCSV()">
+              <i class="ti ti-download" aria-hidden="true"></i> Export CSV
+            </button>
+          </div>
+
+        </div><!-- /tool-view -->
+
+      </div><!-- /page-content -->
+
+    </div><!-- /right-panel -->
+
+  </div><!-- /app -->
 
   <script src="app.js"></script>
 </body>

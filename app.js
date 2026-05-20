@@ -206,5 +206,10 @@ document.getElementById('add-row-btn').addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' ') addRow();
 });
 
+// ── Sidebar toggle ──
+document.getElementById('burger-btn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('collapsed');
+});
+
 // ── Init ──
 render();
