@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlanIQ — Headcount Planning</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+</head>
+<body>
+
+  <div class="app">
+    <div class="header">
+      <div class="logo">Plan<span>IQ</span></div>
+      <div class="dept-badge">
+        <i class="ti ti-users" aria-hidden="true"></i>
+        Headcount Planning — FY 2026
+      </div>
+    </div>
+
+    <div class="summary-grid" id="summary">
+      <div class="metric">
+        <div class="metric-label">Total headcount</div>
+        <div class="metric-value" id="s-total">0</div>
+        <div class="metric-sub">roles</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Monthly cost</div>
+        <div class="metric-value" id="s-monthly">$0</div>
+        <div class="metric-sub">all roles</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Annual cost</div>
+        <div class="metric-value" id="s-annual">$0</div>
+        <div class="metric-sub">remaining FY</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Open roles</div>
+        <div class="metric-value" id="s-open">0</div>
+        <div class="metric-sub">unfilled</div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="col-role">Role title</th>
+            <th class="col-rate">Rate</th>
+            <th class="col-type">Type</th>
+            <th class="col-start">Start month</th>
+            <th class="col-monthly">Monthly cost</th>
+            <th class="col-annual">Annual cost</th>
+            <th class="col-status">Status</th>
+            <th class="col-dept">Department</th>
+            <th class="col-del"></th>
+          </tr>
+        </thead>
+        <tbody id="hc-body"></tbody>
+      </table>
+      <div class="add-row" id="add-row-btn" role="button" tabindex="0" aria-label="Add new role">
+        <i class="ti ti-plus" aria-hidden="true"></i> Add role
+      </div>
+    </div>
+
+    <div class="footer-bar">
+      <button class="btn btn-primary" onclick="exportCSV()">
+        <i class="ti ti-download" aria-hidden="true"></i> Export CSV
+      </button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

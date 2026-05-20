@@ -1,0 +1,332 @@
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Tokens ── */
+:root {
+  --color-brand:          #1D9E75;
+  --color-brand-dark:     #0F6E56;
+
+  --color-bg:             #ffffff;
+  --color-bg-secondary:   #f5f5f3;
+  --color-bg-hover:       #f0f0ee;
+
+  --color-text-primary:   #1a1a18;
+  --color-text-secondary: #6b6b67;
+  --color-text-tertiary:  #a0a09c;
+
+  --color-border:         rgba(0,0,0,0.10);
+  --color-border-strong:  rgba(0,0,0,0.18);
+
+  --color-filled-bg:      #E1F5EE;
+  --color-filled-text:    #0F6E56;
+  --color-open-bg:        #FAEEDA;
+  --color-open-text:      #854F0B;
+  --color-planned-bg:     #EEEDFE;
+  --color-planned-text:   #534AB7;
+
+  --color-danger:         #E24B4A;
+  --color-danger-bg:      #FCEBEB;
+
+  --radius-sm:  6px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ── Dark mode ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg:             #1c1c1a;
+    --color-bg-secondary:   #252523;
+    --color-bg-hover:       #2e2e2b;
+
+    --color-text-primary:   #f0f0ec;
+    --color-text-secondary: #9a9a94;
+    --color-text-tertiary:  #5e5e5a;
+
+    --color-border:         rgba(255,255,255,0.10);
+    --color-border-strong:  rgba(255,255,255,0.18);
+
+    --color-filled-bg:      #085041;
+    --color-filled-text:    #9FE1CB;
+    --color-open-bg:        #633806;
+    --color-open-text:      #FAC775;
+    --color-planned-bg:     #3C3489;
+    --color-planned-text:   #CECBF6;
+
+    --color-danger-bg:      #501313;
+  }
+}
+
+/* ── Base ── */
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* ── App shell ── */
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: var(--color-brand);
+}
+
+.dept-badge {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  background: var(--color-bg);
+  border: 0.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 5px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dept-badge .ti {
+  font-size: 14px;
+}
+
+/* ── Summary cards ── */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.metric {
+  background: var(--color-bg);
+  border: 0.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  letter-spacing: -0.5px;
+}
+
+.metric-sub {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  margin-top: 2px;
+}
+
+/* ── Table ── */
+.table-wrap {
+  background: var(--color-bg);
+  border: 0.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: fixed;
+}
+
+thead tr {
+  background: var(--color-bg-secondary);
+}
+
+th {
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  border-bottom: 0.5px solid var(--color-border);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+td {
+  padding: 8px 12px;
+  color: var(--color-text-primary);
+  border-bottom: 0.5px solid var(--color-border);
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: var(--color-bg-hover);
+}
+
+/* ── Inline inputs ── */
+td input,
+td select {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  padding: 2px 0;
+  outline: none;
+  cursor: pointer;
+}
+
+td input:focus,
+td select:focus {
+  background: var(--color-bg-secondary);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+/* ── Status pills ── */
+.status-pill {
+  display: inline-block;
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.status-filled  { background: var(--color-filled-bg);  color: var(--color-filled-text); }
+.status-open    { background: var(--color-open-bg);    color: var(--color-open-text); }
+.status-planned { background: var(--color-planned-bg); color: var(--color-planned-text); }
+
+/* ── Cost cells ── */
+.cost-cell {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Delete button ── */
+.del-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  font-size: 16px;
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
+}
+
+.del-btn:hover {
+  color: var(--color-danger);
+  background: var(--color-danger-bg);
+}
+
+/* ── Add row ── */
+.add-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  border-top: 0.5px solid var(--color-border);
+  transition: background 0.15s, color 0.15s;
+  user-select: none;
+}
+
+.add-row:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+.add-row .ti {
+  font-size: 16px;
+}
+
+/* ── Column widths ── */
+.col-role    { width: 18%; }
+.col-rate    { width: 9%; }
+.col-type    { width: 10%; }
+.col-start   { width: 10%; }
+.col-monthly { width: 11%; }
+.col-annual  { width: 11%; }
+.col-status  { width: 10%; }
+.col-dept    { width: 15%; }
+.col-del     { width: 6%; text-align: center; }
+
+/* ── Footer ── */
+.footer-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: 0.5px solid var(--color-border-strong);
+  background: transparent;
+  color: var(--color-text-primary);
+  transition: background 0.15s;
+}
+
+.btn:hover {
+  background: var(--color-bg-secondary);
+}
+
+.btn-primary {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  color: #fff;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background: var(--color-brand-dark);
+  border-color: var(--color-brand-dark);
+}
