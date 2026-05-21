@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlanIQ — Headcount Planning</title>
+  <title>PlanIQ</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
 </head>
@@ -16,6 +16,10 @@
       <div class="nav-item active" data-tool="headcount">
         <i class="ti ti-users" aria-hidden="true"></i>
         <span>Headcount</span>
+      </div>
+      <div class="nav-item" data-tool="opex">
+        <i class="ti ti-receipt" aria-hidden="true"></i>
+        <span>OpEx</span>
       </div>
     </nav>
 
@@ -31,14 +35,15 @@
 
       <div class="page-content">
 
-        <div class="page-header">
-          <div class="dept-badge">
-            <i class="ti ti-users" aria-hidden="true"></i>
-            Headcount Planning — FY 2026
-          </div>
-        </div>
+        <!-- ── Headcount view ── -->
+        <div class="tool-view" id="view-headcount">
 
-        <div class="tool-view">
+          <div class="page-header">
+            <div class="dept-badge">
+              <i class="ti ti-users" aria-hidden="true"></i>
+              Headcount Planning — FY 2026
+            </div>
+          </div>
 
           <div class="summary-grid" id="summary">
             <div class="metric">
@@ -91,7 +96,61 @@
             </button>
           </div>
 
-        </div><!-- /tool-view -->
+        </div><!-- /view-headcount -->
+
+        <!-- ── OpEx view ── -->
+        <div class="tool-view" id="view-opex" hidden>
+
+          <div class="page-header">
+            <div class="dept-badge">
+              <i class="ti ti-receipt" aria-hidden="true"></i>
+              OpEx Planning — FY 2026
+            </div>
+            <div class="sync-badge">
+              <i class="ti ti-refresh" aria-hidden="true"></i>
+              Synced with Headcount
+            </div>
+          </div>
+
+          <div class="summary-grid">
+            <div class="metric">
+              <div class="metric-label">Annual OpEx</div>
+              <div class="metric-value" id="opex-annual">$0</div>
+              <div class="metric-sub">all departments</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Monthly avg burn</div>
+              <div class="metric-value" id="opex-avg">$0</div>
+              <div class="metric-sub">across FY</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">H1 spend</div>
+              <div class="metric-value" id="opex-h1">$0</div>
+              <div class="metric-sub">Jan – Jun</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">H2 spend</div>
+              <div class="metric-value" id="opex-h2">$0</div>
+              <div class="metric-sub">Jul – Dec</div>
+            </div>
+          </div>
+
+          <div class="opex-table-wrap">
+            <table class="opex-table">
+              <thead>
+                <tr>
+                  <th class="opex-col-dept">Department</th>
+                  <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th>
+                  <th>May</th><th>Jun</th><th>Jul</th><th>Aug</th>
+                  <th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
+                  <th class="opex-col-annual">Annual</th>
+                </tr>
+              </thead>
+              <tbody id="opex-body"></tbody>
+            </table>
+          </div>
+
+        </div><!-- /view-opex -->
 
       </div><!-- /page-content -->
 

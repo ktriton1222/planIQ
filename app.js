@@ -200,6 +200,122 @@ function exportCSV() {
   URL.revokeObjectURL(url);
 }
 
+// ── OpEx helpers ──
+function deptMonthCost(dept, month) {
+  // Sum monthly cost for every role in this dept that has started by this month
+  return rows
+    .filter(r => r.dept === dept && r.start <= month)
+    .reduce((sum, r) => sum + monthlyCost(r), 0);
+}
+
+function uniqueDepts() {
+  // Preserve insertion order from the rows array
+  const seen = new Set();
+  rows.forEach(r => seen.add(r.dept));
+  return [...seen];
+}
+
+// ── OpEx render ──
+function renderOpEx() {
+  const depts       = uniqueDepts();
+  const monthNums   = Array.from({ length: 12 }, (_, i) => i + 1);
+  const monthTotals = monthNums.map(m =>
+    depts.reduce((sum, dept) => sum + deptMonthCost(dept, m), 0)
+  );
+
+  const annualTotal = monthTotals.reduce((a, b) => a + b, 0);
+  const avgMonthly  = depts.length ? Math.round(annualTotal / 12) : 0;
+  const h1          = monthTotals.slice(0, 6).reduce((a, b) => a + b, 0);
+  const h2          = monthTotals.slice(6).reduce((a, b) => a + b, 0);
+
+  document.getElementById('opex-annual').textContent = fmt(annualTotal);
+  document.getElementById('opex-avg').textContent    = fmt(avgMonthly);
+  document.getElementById('opex-h1').textContent     = fmt(h1);
+  document.getElementById('opex-h2').textContent     = fmt(h2);
+
+  const tbody = document.getElementById('opex-body');
+  tbody.innerHTML = '';
+
+  if (!depts.length) {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan   = 14;
+    td.textContent = 'No headcount data — add roles in the Headcount tool.';
+    td.style.cssText = 'text-align:center;padding:2rem;color:var(--color-text-tertiary);font-size:13px;';
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    return;
+  }
+
+  // One row per department
+  depts.forEach(dept => {
+    const tr = document.createElement('tr');
+
+    const tdDept = document.createElement('td');
+    tdDept.className   = 'opex-dept-cell';
+    tdDept.textContent = dept;
+    tr.appendChild(tdDept);
+
+    let deptAnnual = 0;
+    monthNums.forEach(m => {
+      const cost = deptMonthCost(dept, m);
+      deptAnnual += cost;
+      const td = document.createElement('td');
+      td.className   = 'opex-month-cell' + (cost === 0 ? ' opex-zero' : '');
+      td.textContent = cost > 0 ? fmt(cost) : '—';
+      tr.appendChild(td);
+    });
+
+    const tdAnnual = document.createElement('td');
+    tdAnnual.className   = 'opex-month-cell opex-annual-cell';
+    tdAnnual.textContent = fmt(deptAnnual);
+    tr.appendChild(tdAnnual);
+
+    tbody.appendChild(tr);
+  });
+
+  // Totals row
+  const trTotals = document.createElement('tr');
+  trTotals.className = 'opex-totals-row';
+
+  const tdLabel = document.createElement('td');
+  tdLabel.className   = 'opex-dept-cell';
+  tdLabel.textContent = 'Total';
+  trTotals.appendChild(tdLabel);
+
+  let grandTotal = 0;
+  monthNums.forEach(m => {
+    const cost = monthTotals[m - 1];
+    grandTotal += cost;
+    const td = document.createElement('td');
+    td.className   = 'opex-month-cell';
+    td.textContent = fmt(cost);
+    trTotals.appendChild(td);
+  });
+
+  const tdGrand = document.createElement('td');
+  tdGrand.className   = 'opex-month-cell opex-annual-cell';
+  tdGrand.textContent = fmt(grandTotal);
+  trTotals.appendChild(tdGrand);
+
+  tbody.appendChild(trTotals);
+}
+
+// ── Navigation ──
+function switchTool(toolId) {
+  document.querySelectorAll('.nav-item[data-tool]').forEach(el =>
+    el.classList.toggle('active', el.dataset.tool === toolId)
+  );
+  document.querySelectorAll('.tool-view[id]').forEach(el => {
+    el.hidden = el.id !== 'view-' + toolId;
+  });
+  if (toolId === 'opex') renderOpEx();
+}
+
+document.querySelectorAll('.nav-item[data-tool]').forEach(el =>
+  el.addEventListener('click', () => switchTool(el.dataset.tool))
+);
+
 // ── Event listeners ──
 document.getElementById('add-row-btn').addEventListener('click', addRow);
 document.getElementById('add-row-btn').addEventListener('keydown', e => {

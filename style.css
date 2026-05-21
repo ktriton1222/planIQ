@@ -490,6 +490,93 @@ td select:focus {
   border-color: var(--color-brand-dark);
 }
 
+/* ── Sync badge ── */
+.sync-badge {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-brand);
+  background: var(--color-filled-bg);
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+/* ── OpEx table ── */
+.opex-table-wrap {
+  background: var(--color-bg);
+  border: 0.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.opex-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  min-width: 860px;
+}
+
+.opex-table thead tr {
+  background: var(--color-bg-secondary);
+}
+
+.opex-table th {
+  padding: 10px 10px;
+  text-align: right;
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  border-bottom: 0.5px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.opex-col-dept {
+  text-align: left !important;
+  width: 130px;
+}
+
+.opex-col-annual {
+  border-left: 0.5px solid var(--color-border);
+}
+
+.opex-dept-cell {
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  border-bottom: 0.5px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.opex-month-cell {
+  padding: 8px 10px;
+  text-align: right;
+  border-bottom: 0.5px solid var(--color-border);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.opex-zero {
+  color: var(--color-text-tertiary);
+}
+
+.opex-annual-cell {
+  font-weight: 600;
+  border-left: 0.5px solid var(--color-border);
+}
+
+.opex-totals-row td {
+  background: var(--color-bg-secondary);
+  font-weight: 600;
+  border-top: 0.5px solid var(--color-border-strong);
+  border-bottom: none !important;
+}
+
 /* ── Theme toggle ── */
 .theme-toggle {
   position: fixed;
