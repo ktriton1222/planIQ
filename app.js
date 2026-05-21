@@ -211,5 +211,35 @@ document.getElementById('burger-btn').addEventListener('click', () => {
   document.getElementById('sidebar').classList.toggle('collapsed');
 });
 
+// ── Theme toggle ──
+const html        = document.documentElement;
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+const themeBtn    = document.getElementById('theme-toggle');
+const themeIcon   = themeBtn.querySelector('i');
+
+function isDark() {
+  if (html.classList.contains('dark'))  return true;
+  if (html.classList.contains('light')) return false;
+  return prefersDark.matches;
+}
+
+function syncIcon() {
+  // Moon = currently light (click to go dark); Sun = currently dark (click to go light)
+  themeIcon.className = isDark() ? 'ti ti-sun' : 'ti ti-moon';
+}
+
+themeBtn.addEventListener('click', () => {
+  const dark = isDark();
+  html.classList.toggle('dark', !dark);
+  html.classList.toggle('light', dark);
+  syncIcon();
+});
+
+// Keep icon in sync if system theme changes without a manual override
+prefersDark.addEventListener('change', () => {
+  if (!html.classList.contains('dark') && !html.classList.contains('light')) syncIcon();
+});
+
 // ── Init ──
+syncIcon();
 render();
