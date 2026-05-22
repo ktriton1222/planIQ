@@ -708,6 +708,45 @@ td select:focus {
 
 .auth-link:hover { text-decoration: underline; }
 
+.google-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 9px;
+  background: #fff;
+  border: 0.5px solid rgba(0,0,0,0.2);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  color: #3c4043;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-bottom: 1rem;
+}
+
+.google-btn:hover { background: #f5f5f5; }
+
+.google-btn .ti { font-size: 18px; color: #4285F4; }
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  margin-bottom: 1rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--color-border);
+}
+
 /* ── User menu ── */
 .user-menu {
   position: relative;

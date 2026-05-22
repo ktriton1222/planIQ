@@ -11,8 +11,9 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db   = firebase.firestore();
+const auth           = firebase.auth();
+const db             = firebase.firestore();
+const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 // ── Constants ──
 const MONTHS    = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -380,6 +381,18 @@ function authErrorMessage(code) {
 }
 
 document.getElementById('auth-toggle').addEventListener('click', () => setAuthMode(!isSignUp));
+
+document.getElementById('google-btn').addEventListener('click', async () => {
+  const errEl = document.getElementById('auth-error');
+  errEl.textContent = '';
+  try {
+    await auth.signInWithPopup(googleProvider);
+  } catch (err) {
+    if (err.code !== 'auth/popup-closed-by-user') {
+      errEl.textContent = authErrorMessage(err.code);
+    }
+  }
+});
 
 document.getElementById('auth-submit').addEventListener('click', async () => {
   const email    = document.getElementById('auth-email').value.trim();
