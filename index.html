@@ -1,203 +1,250 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlanIQ</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>PlanIQ</title>
+		<link rel="stylesheet" href="style.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"
+		/>
+	</head>
+	<body>
+		<!-- Loading splash (shown while Firebase resolves auth) -->
+		<div id="loading-overlay" class="loading-overlay">
+			<div class="loading-logo">Plan<span>IQ</span></div>
+		</div>
 
-  <!-- Loading splash (shown while Firebase resolves auth) -->
-  <div id="loading-overlay" class="loading-overlay">
-    <div class="loading-logo">Plan<span>IQ</span></div>
-  </div>
+		<!-- Auth screen (shown when signed out) -->
+		<div id="auth-overlay" class="auth-overlay" style="display: none">
+			<div class="auth-card">
+				<div class="auth-logo">Plan<span>IQ</span></div>
+				<h2 class="auth-title" id="auth-title">Welcome back</h2>
+				<p class="auth-sub" id="auth-sub">Sign in to your account</p>
+				<div class="auth-field">
+					<label for="auth-email">Email</label>
+					<input
+						type="email"
+						id="auth-email"
+						placeholder="you@company.com"
+						autocomplete="email"
+					/>
+				</div>
+				<div class="auth-field">
+					<label for="auth-password">Password</label>
+					<input
+						type="password"
+						id="auth-password"
+						placeholder="••••••••"
+						autocomplete="current-password"
+					/>
+				</div>
+				<button class="google-btn" id="google-btn">
+					<i class="ti ti-brand-google" aria-hidden="true"></i>
+					Continue with Google
+				</button>
+				<div class="auth-divider"><span>or</span></div>
+				<div class="auth-error" id="auth-error"></div>
+				<button class="btn btn-primary auth-submit" id="auth-submit">
+					Sign in
+				</button>
+				<p class="auth-toggle-row">
+					Don't have an account?
+					<button class="auth-link" id="auth-toggle">Create one</button>
+				</p>
+			</div>
+		</div>
 
-  <!-- Auth screen (shown when signed out) -->
-  <div id="auth-overlay" class="auth-overlay" style="display:none">
-    <div class="auth-card">
-      <div class="auth-logo">Plan<span>IQ</span></div>
-      <h2 class="auth-title" id="auth-title">Welcome back</h2>
-      <p class="auth-sub" id="auth-sub">Sign in to your account</p>
-      <div class="auth-field">
-        <label for="auth-email">Email</label>
-        <input type="email" id="auth-email" placeholder="you@company.com" autocomplete="email" />
-      </div>
-      <div class="auth-field">
-        <label for="auth-password">Password</label>
-        <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password" />
-      </div>
-      <button class="google-btn" id="google-btn">
-        <i class="ti ti-brand-google" aria-hidden="true"></i>
-        Continue with Google
-      </button>
-      <div class="auth-divider"><span>or</span></div>
-      <div class="auth-error" id="auth-error"></div>
-      <button class="btn btn-primary auth-submit" id="auth-submit">Sign in</button>
-      <p class="auth-toggle-row">
-        Don't have an account?
-        <button class="auth-link" id="auth-toggle">Create one</button>
-      </p>
-    </div>
-  </div>
+		<!-- Main app (shown when signed in) -->
+		<div class="app" id="main-app" style="display: none">
+			<nav class="sidebar" id="sidebar">
+				<div class="nav-section-label">Tools</div>
+				<div class="nav-item active" data-tool="headcount">
+					<i class="ti ti-users" aria-hidden="true"></i>
+					<span>Headcount</span>
+				</div>
+				<div class="nav-item" data-tool="opex">
+					<i class="ti ti-receipt" aria-hidden="true"></i>
+					<span>OpEx</span>
+				</div>
+			</nav>
 
-  <!-- Main app (shown when signed in) -->
-  <div class="app" id="main-app" style="display:none">
+			<div class="right-panel">
+				<header class="top-bar">
+					<button
+						class="burger-btn"
+						id="burger-btn"
+						aria-label="Toggle sidebar"
+					>
+						<i class="ti ti-menu-2" aria-hidden="true"></i>
+					</button>
+					<div class="logo">Plan<span>IQ</span></div>
+					<div class="user-menu" id="user-menu">
+						<button
+							class="user-avatar-btn"
+							id="user-avatar-btn"
+							aria-label="Account menu"
+						>
+							<span id="user-initial"></span>
+						</button>
+						<div class="user-dropdown" id="user-dropdown" hidden>
+							<div
+								class="user-dropdown-email"
+								id="user-dropdown-email"
+							></div>
+							<button class="user-dropdown-item" id="sign-out-btn">
+								<i class="ti ti-logout" aria-hidden="true"></i> Sign
+								out
+							</button>
+						</div>
+					</div>
+				</header>
 
-    <nav class="sidebar" id="sidebar">
-      <div class="nav-section-label">Tools</div>
-      <div class="nav-item active" data-tool="headcount">
-        <i class="ti ti-users" aria-hidden="true"></i>
-        <span>Headcount</span>
-      </div>
-      <div class="nav-item" data-tool="opex">
-        <i class="ti ti-receipt" aria-hidden="true"></i>
-        <span>OpEx</span>
-      </div>
-    </nav>
+				<div class="page-content">
+					<!-- Headcount view -->
+					<div class="tool-view" id="view-headcount">
+						<div class="page-header">
+							<div class="dept-badge">
+								<i class="ti ti-users" aria-hidden="true"></i>
+								Headcount Planning — FY 2026
+							</div>
+						</div>
+						<div class="summary-grid" id="summary">
+							<div class="metric">
+								<div class="metric-label">Total headcount</div>
+								<div class="metric-value" id="s-total">0</div>
+								<div class="metric-sub">roles</div>
+							</div>
+							<div class="metric">
+								<div class="metric-label">Monthly cost</div>
+								<div class="metric-value" id="s-monthly">$0</div>
+								<div class="metric-sub">all roles</div>
+							</div>
+							<div class="metric">
+								<div class="metric-label">Annual cost</div>
+								<div class="metric-value" id="s-annual">$0</div>
+								<div class="metric-sub">remaining FY</div>
+							</div>
+							<div class="metric">
+								<div class="metric-label">Open roles</div>
+								<div class="metric-value" id="s-open">0</div>
+								<div class="metric-sub">unfilled</div>
+							</div>
+						</div>
+						<div class="nl-bar">
+							<i class="ti ti-sparkles nl-spark" aria-hidden="true"></i>
+							<input type="text" id="nl-input" class="nl-input"
+								placeholder='Describe a role — e.g. "Senior engineer $140k starting March"' />
+							<button class="nl-btn" id="nl-btn">Add with AI</button>
+						</div>
+						<div class="nl-error" id="nl-error"></div>
+						<div class="table-wrap">
+							<table>
+								<thead>
+									<tr>
+										<th class="col-role">Role title</th>
+										<th class="col-rate">Rate</th>
+										<th class="col-type">Type</th>
+										<th class="col-start">Start month</th>
+										<th class="col-monthly">Monthly cost</th>
+										<th class="col-annual">Annual cost</th>
+										<th class="col-status">Status</th>
+										<th class="col-dept">Department</th>
+										<th class="col-del"></th>
+									</tr>
+								</thead>
+								<tbody id="hc-body"></tbody>
+							</table>
+							<div
+								class="add-row"
+								id="add-row-btn"
+								role="button"
+								tabindex="0"
+								aria-label="Add new role"
+							>
+								<i class="ti ti-plus" aria-hidden="true"></i> Add
+								role
+							</div>
+						</div>
+						<div class="footer-bar">
+							<button class="btn btn-primary" onclick="exportCSV()">
+								<i class="ti ti-download" aria-hidden="true"></i>
+								Export CSV
+							</button>
+						</div>
+					</div>
 
-    <div class="right-panel">
+					<!-- OpEx view -->
+					<div class="tool-view" id="view-opex" hidden>
+						<div class="page-header">
+							<div class="dept-badge">
+								<i class="ti ti-receipt" aria-hidden="true"></i>
+								OpEx Planning — FY 2026
+							</div>
+							<div class="sync-badge">
+								<i class="ti ti-refresh" aria-hidden="true"></i>
+								Synced with Headcount
+							</div>
+						</div>
+						<div class="summary-grid">
+							<div class="metric">
+								<div class="metric-label">Annual OpEx</div>
+								<div class="metric-value" id="opex-annual">$0</div>
+								<div class="metric-sub">all departments</div>
+							</div>
+							<div class="metric">
+								<div class="metric-label">Monthly avg burn</div>
+								<div class="metric-value" id="opex-avg">$0</div>
+								<div class="metric-sub">across FY</div>
+							</div>
+							<div class="metric">
+								<div class="metric-label">H1 spend</div>
+								<div class="metric-value" id="opex-h1">$0</div>
+								<div class="metric-sub">Jan – Jun</div>
+							</div>
+							<div class="metric">
+								<div class="metric-label">H2 spend</div>
+								<div class="metric-value" id="opex-h2">$0</div>
+								<div class="metric-sub">Jul – Dec</div>
+							</div>
+						</div>
+						<div class="opex-table-wrap">
+							<table class="opex-table">
+								<thead>
+									<tr>
+										<th class="opex-col-dept">Department</th>
+										<th>Jan</th>
+										<th>Feb</th>
+										<th>Mar</th>
+										<th>Apr</th>
+										<th>May</th>
+										<th>Jun</th>
+										<th>Jul</th>
+										<th>Aug</th>
+										<th>Sep</th>
+										<th>Oct</th>
+										<th>Nov</th>
+										<th>Dec</th>
+										<th class="opex-col-annual">Annual</th>
+									</tr>
+								</thead>
+								<tbody id="opex-body"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-      <header class="top-bar">
-        <button class="burger-btn" id="burger-btn" aria-label="Toggle sidebar">
-          <i class="ti ti-menu-2" aria-hidden="true"></i>
-        </button>
-        <div class="logo">Plan<span>IQ</span></div>
-        <div class="user-menu" id="user-menu">
-          <button class="user-avatar-btn" id="user-avatar-btn" aria-label="Account menu">
-            <span id="user-initial"></span>
-          </button>
-          <div class="user-dropdown" id="user-dropdown" hidden>
-            <div class="user-dropdown-email" id="user-dropdown-email"></div>
-            <button class="user-dropdown-item" id="sign-out-btn">
-              <i class="ti ti-logout" aria-hidden="true"></i> Sign out
-            </button>
-          </div>
-        </div>
-      </header>
+		<button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+			<i class="ti ti-moon" aria-hidden="true"></i>
+		</button>
 
-      <div class="page-content">
-
-        <!-- Headcount view -->
-        <div class="tool-view" id="view-headcount">
-          <div class="page-header">
-            <div class="dept-badge">
-              <i class="ti ti-users" aria-hidden="true"></i>
-              Headcount Planning — FY 2026
-            </div>
-          </div>
-          <div class="summary-grid" id="summary">
-            <div class="metric">
-              <div class="metric-label">Total headcount</div>
-              <div class="metric-value" id="s-total">0</div>
-              <div class="metric-sub">roles</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">Monthly cost</div>
-              <div class="metric-value" id="s-monthly">$0</div>
-              <div class="metric-sub">all roles</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">Annual cost</div>
-              <div class="metric-value" id="s-annual">$0</div>
-              <div class="metric-sub">remaining FY</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">Open roles</div>
-              <div class="metric-value" id="s-open">0</div>
-              <div class="metric-sub">unfilled</div>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th class="col-role">Role title</th>
-                  <th class="col-rate">Rate</th>
-                  <th class="col-type">Type</th>
-                  <th class="col-start">Start month</th>
-                  <th class="col-monthly">Monthly cost</th>
-                  <th class="col-annual">Annual cost</th>
-                  <th class="col-status">Status</th>
-                  <th class="col-dept">Department</th>
-                  <th class="col-del"></th>
-                </tr>
-              </thead>
-              <tbody id="hc-body"></tbody>
-            </table>
-            <div class="add-row" id="add-row-btn" role="button" tabindex="0" aria-label="Add new role">
-              <i class="ti ti-plus" aria-hidden="true"></i> Add role
-            </div>
-          </div>
-          <div class="footer-bar">
-            <button class="btn btn-primary" onclick="exportCSV()">
-              <i class="ti ti-download" aria-hidden="true"></i> Export CSV
-            </button>
-          </div>
-        </div>
-
-        <!-- OpEx view -->
-        <div class="tool-view" id="view-opex" hidden>
-          <div class="page-header">
-            <div class="dept-badge">
-              <i class="ti ti-receipt" aria-hidden="true"></i>
-              OpEx Planning — FY 2026
-            </div>
-            <div class="sync-badge">
-              <i class="ti ti-refresh" aria-hidden="true"></i>
-              Synced with Headcount
-            </div>
-          </div>
-          <div class="summary-grid">
-            <div class="metric">
-              <div class="metric-label">Annual OpEx</div>
-              <div class="metric-value" id="opex-annual">$0</div>
-              <div class="metric-sub">all departments</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">Monthly avg burn</div>
-              <div class="metric-value" id="opex-avg">$0</div>
-              <div class="metric-sub">across FY</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">H1 spend</div>
-              <div class="metric-value" id="opex-h1">$0</div>
-              <div class="metric-sub">Jan – Jun</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">H2 spend</div>
-              <div class="metric-value" id="opex-h2">$0</div>
-              <div class="metric-sub">Jul – Dec</div>
-            </div>
-          </div>
-          <div class="opex-table-wrap">
-            <table class="opex-table">
-              <thead>
-                <tr>
-                  <th class="opex-col-dept">Department</th>
-                  <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th>
-                  <th>May</th><th>Jun</th><th>Jul</th><th>Aug</th>
-                  <th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
-                  <th class="opex-col-annual">Annual</th>
-                </tr>
-              </thead>
-              <tbody id="opex-body"></tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-    <i class="ti ti-moon" aria-hidden="true"></i>
-  </button>
-
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="app.js"></script>
-</body>
+		<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-functions-compat.js"></script>
+		<script src="app.js"></script>
+	</body>
 </html>
